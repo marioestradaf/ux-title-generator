@@ -26,7 +26,7 @@
     // Setting name and job from params values
     $title_name = $_GET['name'];
     if ($_GET['job']) {
-        $job_name = $_GET['job'];        
+        $job_name = $_GET['job'];
     }
     else{
         // Let's Random!
@@ -38,7 +38,7 @@
     };
 
     // Create the image object
-    $image = @imagecreatetruecolor(300, 50) or die('Error initilizing new GD stream');
+    $image = @imagecreatetruecolor(300, 40) or die('Error initilizing new GD stream');
     
     imagesavealpha($image, true);
 
@@ -46,17 +46,24 @@
     imagefill($image, 0, 0, $trans_colour);
     
     // Loading Fonts
-    //putenv('GDFONTPATH=' . realpath('.'));
+    if ($_GET['font']=='scada'){
+        $name_font = '/fonts/Scada/Scada-Bold.ttf';
+        $job_font = '/fonts/Scada/Scada-Regular.ttf';
+    }
+    elseif ($_GET['font']=='montse'){
+        $name_font = '/fonts/Montserrat/Montserrat-Bold.ttf';
+        $job_font = '/fonts/Montserrat/Montserrat-Regular.ttf';
+    }else{
+        $name_font = '/fonts/Istok_Web/IstokWeb-Bold.ttf';
+        $job_font = '/fonts/Istok_Web/IstokWeb-Regular.ttf';
+    };
     
-    $name_font = '/fonts/IstokWeb-Bold.ttf';
     $name_color = imagecolorallocate($image, 27, 28, 22);
-    
-    $job_font = '/fonts/IstokWeb-Regular.ttf';
-    $job_color = imagecolorallocate($image, 27, 28, 22);
+    $job_color = imagecolorallocate($image, 120, 120, 120);
 
     // Printing!
-    imagettftext($image, 12, 0, 5, 20, $name_color, $name_font, $title_name);
-    imagettftext($image, 10, 0, 5, 35, $job_color, $job_font, $job_name);
+    imagettftext($image, 11, 0, 0, 15, $name_color, $name_font, $title_name);
+    imagettftext($image, 10, 0, 0, 28, $job_color, $job_font, $job_name);
 
     // Show and Destroy, start and end, alpha and omega.
     imagepng($image);
